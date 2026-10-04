@@ -117,6 +117,12 @@ de `N` y del modelo Dirichlet y no constituye un umbral normativo. Las preguntas
 complementarias sobre CRk, ID y entropía no asignan umbrales normativos a esos
 indicadores.
 
+La interfaz redondea únicamente la presentación: CRk e IHH se muestran con 2
+decimales; ID, IE y la entropía normalizada, con 4. Los cálculos, percentiles y
+clasificaciones conservan la precisión completa. La retroalimentación distingue
+la clasificación obtenida mediante los umbrales didácticos del percentil que
+compara el caso con la muestra Monte Carlo real de la simulación vigente.
+
 Para que el despliegue pueda abrirse sin iniciar sesión, se puede usar un
 repositorio público —la aplicación será pública por defecto— o cambiar la
 privacidad a **This app is public and searchable** desde la configuración de

@@ -6,6 +6,8 @@ import pytest
 from concentracion.graficos import (
     crear_grafico_cuotas,
     crear_histograma_comparativo,
+    formatear_numero_indicador,
+    formatear_valor_indicador,
     nombre_eje_indicador,
     obtener_valores_simulados,
 )
@@ -65,3 +67,30 @@ def test_extrae_cada_indicador_en_su_unidad_de_presentacion() -> None:
 def test_indicador_desconocido_se_rechaza() -> None:
     with pytest.raises(ValueError, match="Indicador desconocido"):
         nombre_eje_indicador("otro")
+
+
+@pytest.mark.parametrize(
+    ("indicador", "valor", "numero", "con_unidad"),
+    [
+        ("CRk", 70.126, "70.13", "70.13 %"),
+        ("IHH", 2_345.678, "2345.68", "2345.68 puntos"),
+        ("ID", 0.3933333333, "0.3933", "0.3933 adimensional"),
+        ("IE", 1.2798542258, "1.2799", "1.2799 nats"),
+    ],
+)
+def test_formato_visible_respeta_decimales_por_indicador(
+    indicador: str, valor: float, numero: str, con_unidad: str
+) -> None:
+    assert formatear_numero_indicador(valor, indicador) == numero
+    assert formatear_valor_indicador(valor, indicador) == con_unidad
+
+
+@pytest.mark.parametrize(
+    ("indicador", "formato"),
+    [("CRk", ".2f"), ("IHH", ".2f"), ("ID", ".4f"), ("IE", ".4f")],
+)
+def test_hover_del_histograma_usa_decimales_del_indicador(
+    indicador: str, formato: str
+) -> None:
+    figura = crear_histograma_comparativo([1.0, 2.0, 3.0], 2.0, indicador, k=2)
+    assert formato in figura.data[0].hovertemplate

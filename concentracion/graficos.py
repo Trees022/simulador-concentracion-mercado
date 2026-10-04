@@ -105,7 +105,13 @@ def convertir_valor_presentacion(valor: float, clave: str) -> float:
 def formatear_valor_indicador(valor: float, clave: str) -> str:
     """Redondea únicamente el texto de presentación de un indicador."""
     definicion = obtener_definicion_indicador(clave)
-    return f"{valor:.{definicion.decimales}f} {definicion.unidad}"
+    return f"{formatear_numero_indicador(valor, clave)} {definicion.unidad}"
+
+
+def formatear_numero_indicador(valor: float, clave: str) -> str:
+    """Formatea solo el número, sin alterar el valor usado en los cálculos."""
+    definicion = obtener_definicion_indicador(clave)
+    return f"{float(valor):.{definicion.decimales}f}"
 
 
 def crear_grafico_cuotas(cuotas: ArrayLike) -> go.Figure:
@@ -204,7 +210,8 @@ def crear_histograma_comparativo(
             marker_color=COLOR_SIMULACIONES,
             opacity=0.82,
             hovertemplate=(
-                "Valor: %{x:.4f}<br>Frecuencia: %{y} mercados<extra></extra>"
+                f"Valor: %{{x:.{definicion.decimales}f}}<br>"
+                "Frecuencia: %{y} mercados<extra></extra>"
             ),
         )
     )

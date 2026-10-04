@@ -58,6 +58,7 @@ class RetroalimentacionIHH:
     justificacion: str
     percentil: float
     explicacion_percentil: str
+    distincion_umbral_percentil: str
     aclaracion_percentil: str = ACLARACION_PERCENTIL
 
 
@@ -109,7 +110,7 @@ def _crear_justificacion(cuotas: np.ndarray, ihh_puntos: float) -> str:
         )
         return (
             f"Con cuotas porcentuales {_formatear_lista(porcentajes)}, el IHH "
-            f"es {terminos} = {_formatear_numero(ihh_puntos)} puntos."
+            f"es {terminos} = {ihh_puntos:.2f} puntos."
         )
 
     cinco_mayores = np.sort(porcentajes)[-5:][::-1]
@@ -117,7 +118,7 @@ def _crear_justificacion(cuotas: np.ndarray, ihh_puntos: float) -> str:
         f"El caso contiene {porcentajes.size} cuotas. Sus cinco mayores son "
         f"{_formatear_lista(cinco_mayores)}; al sumar los cuadrados de las "
         f"{porcentajes.size} cuotas porcentuales se obtiene un IHH de "
-        f"{_formatear_numero(ihh_puntos)} puntos."
+        f"{ihh_puntos:.2f} puntos."
     )
 
 
@@ -146,6 +147,13 @@ def evaluar_respuesta_ihh(
         f"El {percentil:.2f} % de los mercados simulados tiene un IHH menor o "
         "igual al de este caso."
     )
+    distincion = (
+        f"La clasificación «{correcta}» resulta de comparar el IHH del caso con "
+        f"precisión completa —mostrado aquí como {ihh:.2f} puntos— con el intervalo "
+        f"{intervalo_ihh(correcta)}. En cambio, el percentil {percentil:.2f} % "
+        "compara ese IHH con la distribución Monte Carlo simulada; no modifica "
+        "la clasificación por umbrales."
+    )
 
     return RetroalimentacionIHH(
         es_correcta=respuesta_normalizada == correcta,
@@ -156,6 +164,7 @@ def evaluar_respuesta_ihh(
         justificacion=_crear_justificacion(cuotas_validadas, ihh),
         percentil=percentil,
         explicacion_percentil=explicacion,
+        distincion_umbral_percentil=distincion,
     )
 
 

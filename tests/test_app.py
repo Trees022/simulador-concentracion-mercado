@@ -32,6 +32,18 @@ def test_ejecutar_y_cambiar_indicador_no_regenera_la_muestra() -> None:
     assert len(app.get("plotly_chart")) == 2
 
 
+def test_indicadores_visibles_respetan_los_decimales_solicitados() -> None:
+    app = _abrir_app()
+    tabla = app.dataframe[1].value
+
+    assert tabla["Valor"].tolist() == ["50.00", "2500.00", "0.2500", "1.3863"]
+    assert any(
+        caption.value
+        == "IHH decimal: 0.25 · Entropía normalizada: 1.0000"
+        for caption in app.caption
+    )
+
+
 def test_cambiar_n_bloquea_comparacion_y_adapta_el_caso() -> None:
     app = _abrir_app()
     app.button(key="ejecutar_simulacion").click().run()

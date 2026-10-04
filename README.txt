@@ -149,6 +149,12 @@ didáctica para cubrir las fronteras. La clasificación usa precisión completa.
 La concentración por sí sola no demuestra una conducta anticompetitiva ni
 reemplaza el análisis de una operación de concentración.
 
+La interfaz redondea únicamente la presentación: CRk e IHH se muestran con 2
+decimales; ID, IE y la entropía normalizada, con 4. Los cálculos, percentiles y
+clasificaciones conservan la precisión completa. La retroalimentación distingue
+la clasificación obtenida mediante los umbrales didácticos del percentil que
+compara el caso con la muestra Monte Carlo real de la simulación vigente.
+
 FUENTES
 -------
 Fiscalía Nacional Económica de Chile. Guía para el Análisis de Operaciones de

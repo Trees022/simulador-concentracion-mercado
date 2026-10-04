@@ -24,6 +24,7 @@ from concentracion.graficos import (
     convertir_valor_presentacion,
     crear_grafico_cuotas,
     crear_histograma_comparativo,
+    formatear_numero_indicador,
     formatear_valor_indicador,
     obtener_valores_simulados,
 )
@@ -442,22 +443,25 @@ if cuotas_caso is not None:
     filas_indicadores = [
         {
             "Indicador": f"CR{k}",
-            "Valor": convertir_valor_presentacion(indicadores_caso["CRk"], "CRk"),
+            "Valor": formatear_numero_indicador(
+                convertir_valor_presentacion(indicadores_caso["CRk"], "CRk"),
+                "CRk",
+            ),
             "Unidad": "%",
         },
         {
             "Indicador": "IHH",
-            "Valor": indicadores_caso["IHH"],
+            "Valor": formatear_numero_indicador(indicadores_caso["IHH"], "IHH"),
             "Unidad": "puntos",
         },
         {
             "Indicador": "ID",
-            "Valor": indicadores_caso["ID"],
+            "Valor": formatear_numero_indicador(indicadores_caso["ID"], "ID"),
             "Unidad": "adimensional",
         },
         {
             "Indicador": "IE",
-            "Valor": indicadores_caso["IE"],
+            "Valor": formatear_numero_indicador(indicadores_caso["IE"], "IE"),
             "Unidad": "nats",
         },
     ]
@@ -466,13 +470,10 @@ if cuotas_caso is not None:
         pd.DataFrame(filas_indicadores),
         hide_index=True,
         width="stretch",
-        column_config={
-            "Valor": st.column_config.NumberColumn("Valor", format="%.6f"),
-        },
     )
     st.caption(
-        f"IHH decimal: {calcular_ihh_decimal(cuotas_caso, n):.10f} · "
-        f"Entropía normalizada: {calcular_entropia_normalizada(cuotas_caso, n):.10f}"
+        f"IHH decimal: {calcular_ihh_decimal(cuotas_caso, n):.2f} · "
+        f"Entropía normalizada: {calcular_entropia_normalizada(cuotas_caso, n):.4f}"
     )
 
 st.header("3. Comparar los resultados")
@@ -601,12 +602,13 @@ if retroalimentacion is not None:
     st.markdown(
         f"""
         1. **Clasificación correcta:** {retroalimentacion.clasificacion_correcta}.
-        2. **IHH del caso:** {retroalimentacion.ihh_puntos:.6f} puntos.
+        2. **IHH del caso:** {retroalimentacion.ihh_puntos:.2f} puntos.
         3. **Intervalo:** {retroalimentacion.intervalo}.
         4. **Justificación:** {retroalimentacion.justificacion}
         5. **Percentil real del IHH:** {retroalimentacion.percentil:.2f} %.
         6. **Interpretación:** {retroalimentacion.explicacion_percentil}
-        7. **Alcance:** {retroalimentacion.aclaracion_percentil}
+        7. **Umbrales y percentil:** {retroalimentacion.distincion_umbral_percentil}
+        8. **Alcance:** {retroalimentacion.aclaracion_percentil}
         """
     )
     st.caption(
@@ -664,7 +666,7 @@ if evaluacion_habilitada:
                 crk_ingresado = float(respuesta_crk.strip().replace(",", "."))
             except (AttributeError, ValueError):
                 mensajes.append(
-                    (False, f"CR{k}: ingresa un número. El valor es {crk_correcto:.6f} %.")
+                    (False, f"CR{k}: ingresa un número. El valor es {crk_correcto:.2f} %.")
                 )
             else:
                 coincide = math.isclose(
@@ -677,7 +679,7 @@ if evaluacion_habilitada:
                     (
                         coincide,
                         f"CR{k}: las {k} empresas mayores concentran "
-                        f"{crk_correcto:.6f} %.",
+                        f"{crk_correcto:.2f} %.",
                     )
                 )
 

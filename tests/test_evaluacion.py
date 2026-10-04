@@ -78,6 +78,20 @@ def test_retroalimentacion_contiene_valor_intervalo_y_percentil() -> None:
         == "El 75.00 % de los mercados simulados tiene un IHH menor o igual al de este caso."
     )
     assert resultado.aclaracion_percentil == ACLARACION_PERCENTIL
+    assert "clasificación «alta»" in resultado.distincion_umbral_percentil
+    assert "3000.00 puntos" in resultado.distincion_umbral_percentil
+    assert "IHH ≥ 2.500 puntos" in resultado.distincion_umbral_percentil
+    assert "percentil 75.00 %" in resultado.distincion_umbral_percentil
+    assert "no modifica la clasificación" in resultado.distincion_umbral_percentil
+
+
+def test_distincion_usa_el_percentil_real_sin_ejemplo_fijo() -> None:
+    resultado = evaluar_respuesta_ihh(
+        "baja", np.full(10, 0.1), 10, [900.0, 1_100.0, 1_200.0]
+    )
+    assert resultado.percentil == pytest.approx(100.0 / 3.0)
+    assert "clasificación «baja»" in resultado.distincion_umbral_percentil
+    assert "percentil 33.33 %" in resultado.distincion_umbral_percentil
 
 
 @pytest.mark.parametrize(
