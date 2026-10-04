@@ -1,0 +1,66 @@
+"""Herramientas para estudiar la concentración de mercado."""
+
+from .evaluacion import (
+    CLASIFICACIONES,
+    FUENTE_FNE_TITULO,
+    FUENTE_FNE_URL,
+    PREGUNTA_PRINCIPAL,
+    RetroalimentacionIHH,
+    clasificar_ihh,
+    evaluar_respuesta_ihh,
+    huella_cuotas,
+    intervalo_ihh,
+)
+
+from .indices import (
+    calcular_crk,
+    calcular_entropia,
+    calcular_entropia_normalizada,
+    calcular_id_garcia_alba,
+    calcular_ihh_decimal,
+    calcular_ihh_puntos,
+    validar_cuotas,
+)
+from .simulacion import (
+    ADVERTENCIA_RENDIMIENTO,
+    ITERACIONES_PREDETERMINADAS,
+    MAX_ITERACIONES,
+    NOTA_PERCENTIL_ENTROPIA,
+    ResultadoSimulacion,
+    ResultadoSimulacionCompacto,
+    calcular_indicadores_vectorizados,
+    calcular_percentil_empirico,
+    compactar_resultado,
+    generar_caso_aleatorio,
+    simular_mercados,
+)
+
+__all__ = [
+    "CLASIFICACIONES",
+    "FUENTE_FNE_TITULO",
+    "FUENTE_FNE_URL",
+    "PREGUNTA_PRINCIPAL",
+    "RetroalimentacionIHH",
+    "clasificar_ihh",
+    "evaluar_respuesta_ihh",
+    "huella_cuotas",
+    "intervalo_ihh",
+    "validar_cuotas",
+    "calcular_crk",
+    "calcular_ihh_decimal",
+    "calcular_ihh_puntos",
+    "calcular_id_garcia_alba",
+    "calcular_entropia",
+    "calcular_entropia_normalizada",
+    "ResultadoSimulacion",
+    "ResultadoSimulacionCompacto",
+    "ITERACIONES_PREDETERMINADAS",
+    "MAX_ITERACIONES",
+    "ADVERTENCIA_RENDIMIENTO",
+    "NOTA_PERCENTIL_ENTROPIA",
+    "calcular_indicadores_vectorizados",
+    "simular_mercados",
+    "generar_caso_aleatorio",
+    "calcular_percentil_empirico",
+    "compactar_resultado",
+]
